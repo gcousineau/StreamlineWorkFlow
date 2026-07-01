@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Model Intake Queue</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-row">
+          <div class="brand-mark">MI</div>
+          <div>
+            <h1>Model Intake</h1>
+            <p id="queueSummary">0 queued</p>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Source Text</h2>
+            <button id="parseButton" class="primary-button" type="button">Parse</button>
+          </div>
+          <textarea id="sourceText" spellcheck="false" placeholder="Paste Patreon message or numbered Gumroad list"></textarea>
+          <div class="compact-row">
+            <button id="sampleButton" class="secondary-button" type="button">Sample</button>
+            <button id="clearSourceButton" class="ghost-button" type="button">Clear</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>CSV</h2>
+          <label class="file-button">
+            <input id="csvFileInput" type="file" accept=".csv,text/csv">
+            Import LoreKeeper CSV
+          </label>
+          <div class="button-grid">
+            <button id="exportLoreBasicButton" class="secondary-button" type="button">Lore Basic</button>
+            <button id="exportLoreFullButton" class="secondary-button" type="button">Lore Full</button>
+            <button id="exportGumroadButton" class="secondary-button" type="button">Gumroad CSV</button>
+            <button id="exportModelBrowserButton" class="secondary-button" type="button">ModelBrowser CSV</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Queue</h2>
+          <div class="button-grid">
+            <button id="exportQueueButton" class="secondary-button" type="button">Backup JSON</button>
+            <label class="file-button small-file-button">
+              <input id="queueFileInput" type="file" accept=".json,application/json">
+              Restore JSON
+            </label>
+          </div>
+          <button id="resetButton" class="danger-button" type="button">Reset Queue</button>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="toolbar">
+          <div class="search-wrap">
+            <label for="queueSearch">Search</label>
+            <input id="queueSearch" type="search" placeholder="Name, creator, URL, lore">
+          </div>
+          <div class="filter-wrap">
+            <label for="statusFilter">Status</label>
+            <select id="statusFilter">
+              <option value="all">All</option>
+              <option value="needs_purchase">Needs Purchase</option>
+              <option value="purchased">Purchased</option>
+              <option value="download_ready">Download Ready</option>
+              <option value="downloaded">Downloaded</option>
+              <option value="import_ready">Import Ready</option>
+              <option value="imported">Imported</option>
+            </select>
+          </div>
+          <button id="openSelectedButton" class="secondary-button" type="button">Open</button>
+          <button id="markDownloadReadyButton" class="secondary-button" type="button">Ready</button>
+        </header>
+
+        <section class="queue-layout">
+          <div class="table-panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Creator</th>
+                  <th>Status</th>
+                  <th>Purchased URL</th>
+                  <th>Lore</th>
+                </tr>
+              </thead>
+              <tbody id="queueBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state">
+              <strong>No models queued</strong>
+              <span>Paste a Patreon message or import a LoreKeeper CSV.</span>
+            </div>
+          </div>
+
+          <section class="detail-panel" aria-live="polite">
+            <div class="detail-heading">
+              <div>
+                <h2 id="detailTitle">No Selection</h2>
+                <p id="detailSubtitle">Select a model from the queue.</p>
+              </div>
+              <button id="removeSelectedButton" class="danger-button" type="button">Remove</button>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                Model Name
+                <input id="detailName" type="text">
+              </label>
+              <label>
+                Creator
+                <input id="detailCreator" type="text">
+              </label>
+              <label>
+                Status
+                <select id="detailStatus">
+                  <option value="needs_purchase">Needs Purchase</option>
+                  <option value="purchased">Purchased</option>
+                  <option value="download_ready">Download Ready</option>
+                  <option value="downloading">Downloading</option>
+                  <option value="downloaded">Downloaded</option>
+                  <option value="import_ready">Import Ready</option>
+                  <option value="imported">Imported</option>
+                  <option value="blocked">Blocked</option>
+                </select>
+              </label>
+              <label>
+                Target Folder
+                <input id="detailTargetFolder" type="text">
+              </label>
+              <label class="wide-field">
+                Original URL
+                <input id="detailOriginalUrl" type="url">
+              </label>
+              <label class="wide-field">
+                Purchased URL
+                <input id="detailPurchasedUrl" type="url" placeholder="https://gumroad.com/d/...">
+              </label>
+              <label>
+                Context Hint
+                <input id="detailContextHint" type="text" placeholder="Marvel, Star Wars, Music">
+              </label>
+              <label>
+                Alignment
+                <input id="detailAlignment" type="text">
+              </label>
+              <label class="wide-field">
+                Abilities
+                <textarea id="detailAbilities"></textarea>
+              </label>
+              <label class="wide-field">
+                Origin
+                <textarea id="detailOrigin"></textarea>
+              </label>
+              <label class="wide-field">
+                Backstory
+                <textarea id="detailBackstory"></textarea>
+              </label>
+              <label class="wide-field">
+                Famous Storyline
+                <textarea id="detailFamousStoryline"></textarea>
+              </label>
+              <label class="wide-field">
+                Notes
+                <textarea id="detailNotes"></textarea>
+              </label>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="src/core.js"></script>
+    <script src="src/app.js"></script>
+  </body>
+</html>

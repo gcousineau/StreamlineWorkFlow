@@ -32,4 +32,11 @@ assert.deepStrictEqual(helperRows, [
   { Folder: "Ozzy Osbourne Sculpture", PageURL: "https://gumroad.com/d/example" }
 ]);
 
+const modelBrowserRows = core.modelBrowserRows([
+  { ...merged[0], purchasedUrl: "https://gumroad.com/d/example", targetFolder: "Ozzy Osbourne Sculpture" }
+]);
+assert.strictEqual(modelBrowserRows[0]["Original URL"], "https://3dwicked.gumroad.com/l/OzzyOsbourneS/jgwjlmr");
+assert.strictEqual(modelBrowserRows[0]["Purchased URL"], "https://gumroad.com/d/example");
+assert.strictEqual(modelBrowserRows[0]["Gumroad URL"], "https://gumroad.com/d/example");
+
 console.log("core smoke tests passed");

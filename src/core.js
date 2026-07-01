@@ -324,6 +324,8 @@
       "Origin Story": item.origin,
       Backstory: item.backstory,
       "Famous Storylines": item.famousStoryline,
+      "Original URL": item.originalUrl,
+      "Purchased URL": item.purchasedUrl,
       "Gumroad URL": item.purchasedUrl || item.originalUrl
     }));
   }

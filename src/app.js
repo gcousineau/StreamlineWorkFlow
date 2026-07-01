@@ -353,6 +353,8 @@ https://3dwicked.gumroad.com/l/IronMaidenPB/9u5kgkh`;
         "Origin Story",
         "Backstory",
         "Famous Storylines",
+        "Original URL",
+        "Purchased URL",
         "Gumroad URL"
       ]);
     });

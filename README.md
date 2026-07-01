@@ -46,5 +46,5 @@ Folder,PageURL
 ModelBrowser metadata CSV:
 
 ```csv
-Description,Character,Origin,Extra Info for Query,Villian or Hero,Abilities,Origin Story,Backstory,Famous Storylines,Gumroad URL
+Description,Character,Origin,Extra Info for Query,Villian or Hero,Abilities,Origin Story,Backstory,Famous Storylines,Original URL,Purchased URL,Gumroad URL
 ```

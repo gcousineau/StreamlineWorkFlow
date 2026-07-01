@@ -163,6 +163,12 @@ https://3dwicked.gumroad.com/l/IronMaidenPB/9u5kgkh`;
       .replace(/"/g, "&quot;");
   }
 
+  function renderUrlLink(url, label) {
+    const value = String(url || "").trim();
+    if (!value) return `<span class="url-line empty-url">-</span>`;
+    return `<a class="url-line url-link" href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(value)}">${escapeHtml(label || value)}</a>`;
+  }
+
   function renderTable() {
     const visible = filteredItems();
     els.queueBody.innerHTML = visible.map((item) => {
@@ -171,13 +177,13 @@ https://3dwicked.gumroad.com/l/IronMaidenPB/9u5kgkh`;
         <tr class="queue-row ${item.id === state.selectedId ? "selected" : ""}" data-id="${escapeHtml(item.id)}">
           <td class="name-cell">
             <strong>${escapeHtml(item.modelName)}</strong>
-            <span class="url-line">${escapeHtml(item.originalUrl)}</span>
+            ${renderUrlLink(item.originalUrl)}
           </td>
           <td>${escapeHtml(item.creator || "-")}</td>
           <td><span class="status-pill ${escapeHtml(item.status)}">${escapeHtml(statusLabel(item.status))}</span></td>
           <td>
             <strong>${purchased}</strong>
-            <span class="url-line">${escapeHtml(item.purchasedUrl)}</span>
+            ${renderUrlLink(item.purchasedUrl)}
           </td>
           <td>${loreMeter(item)}</td>
         </tr>
@@ -189,6 +195,11 @@ https://3dwicked.gumroad.com/l/IronMaidenPB/9u5kgkh`;
       row.addEventListener("click", () => {
         state.selectedId = row.dataset.id;
         render();
+      });
+    });
+    els.queueBody.querySelectorAll("a.url-link").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.stopPropagation();
       });
     });
   }

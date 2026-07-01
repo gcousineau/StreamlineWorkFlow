@@ -327,6 +327,20 @@ tr.queue-row.selected {
   white-space: nowrap;
 }
 
+.url-link {
+  text-decoration: none;
+}
+
+.url-link:hover,
+.url-link:focus {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.empty-url {
+  color: #68758a;
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;

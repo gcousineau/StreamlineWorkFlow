@@ -344,18 +344,19 @@ https://3dwicked.gumroad.com/l/IronMaidenPB/9u5kgkh`;
 
     els.exportModelBrowserButton.addEventListener("click", () => {
       exportCsv("modelbrowser_metadata_import.csv", core.modelBrowserRows(state.items), [
-        "Description",
-        "Character",
-        "Origin",
-        "Extra Info for Query",
-        "Villian or Hero",
-        "Abilities",
-        "Origin Story",
-        "Backstory",
-        "Famous Storylines",
-        "Original URL",
-        "Purchased URL",
-        "Gumroad URL"
+        "model_folder_id",
+        "character_name",
+        "origin_universe",
+        "alignment",
+        "model_type",
+        "abilities",
+        "origin_story",
+        "backstory",
+        "famous_storylines",
+        "extra_info_for_query",
+        "gumroad_url",
+        "custom_Local Model Location",
+        "custom_Custom notes"
       ]);
     });
 

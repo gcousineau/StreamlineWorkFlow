@@ -55,6 +55,44 @@
       .trim();
   }
 
+  function inferModelParts(modelName) {
+    const cleaned = cleanModelName(modelName);
+    const knownTypes = [
+      "Portrait Bust",
+      "Bust Portrait",
+      "Diorama Sculpture",
+      "Diorama Base",
+      "Diorama",
+      "Sculpture",
+      "Statue",
+      "Bust",
+      "Base",
+      "Helmet",
+      "Weapon",
+      "Lightsaber",
+      "Gauntlet",
+      "Blaster",
+      "Rifle",
+      "Ship",
+      "Tank"
+    ];
+
+    for (const type of knownTypes) {
+      const regex = new RegExp(`\\s+${type.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}$`, "i");
+      if (regex.test(cleaned)) {
+        return {
+          characterName: cleaned.replace(regex, "").trim() || cleaned,
+          modelType: type
+        };
+      }
+    }
+
+    return {
+      characterName: cleaned,
+      modelType: ""
+    };
+  }
+
   function makeId(seed) {
     const base = normalizeKey(seed).replace(/\s+/g, "-") || "model";
     const suffix = Math.random().toString(36).slice(2, 8);
@@ -314,20 +352,24 @@
   }
 
   function modelBrowserRows(items) {
-    return items.map((item) => ({
-      Description: sanitizeFolderName(item.targetFolder || item.modelName),
-      Character: item.modelName,
-      Origin: item.contextHint,
-      "Extra Info for Query": inferSearchTerm(item.modelName),
-      "Villian or Hero": item.alignment,
-      Abilities: item.abilities,
-      "Origin Story": item.origin,
-      Backstory: item.backstory,
-      "Famous Storylines": item.famousStoryline,
-      "Original URL": item.originalUrl,
-      "Purchased URL": item.purchasedUrl,
-      "Gumroad URL": item.purchasedUrl || item.originalUrl
-    }));
+    return items.map((item) => {
+      const parts = inferModelParts(item.modelName);
+      return {
+        model_folder_id: sanitizeFolderName(item.targetFolder || item.modelName),
+        character_name: parts.characterName,
+        origin_universe: item.contextHint,
+        alignment: item.alignment,
+        model_type: parts.modelType,
+        abilities: item.abilities,
+        origin_story: item.origin,
+        backstory: item.backstory,
+        famous_storylines: item.famousStoryline,
+        extra_info_for_query: inferSearchTerm(item.modelName),
+        gumroad_url: item.originalUrl,
+        "custom_Local Model Location": "",
+        "custom_Custom notes": item.purchasedUrl
+      };
+    });
   }
 
   const api = {
@@ -338,6 +380,7 @@
     cleanModelName,
     inferCreator,
     inferSearchTerm,
+    inferModelParts,
     createItem,
     parsePatreonText,
     parseCsv,
